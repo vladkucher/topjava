@@ -1,5 +1,7 @@
+<%@ page import="ru.javawebinar.topjava.util.TimeUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <html>
 <head>
     <title>Meal list</title>
@@ -10,6 +12,7 @@
 <table border="1">
     <thead>
     <tr>
+        <th>ID</th>
         <th>Date</th>
         <th>Description</th>
         <th>Calories</th>
@@ -18,11 +21,13 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach var="meal" items="${list}">
+    <c:forEach var="meal" items="${meals}">
+        <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.model.MealWithExceed"/>
         <c:choose>
             <c:when test="${meal.exceed}">
                 <tr bgcolor="red">
-                    <td>${meal.dateTime}</td>
+                    <td>${meal.id}</td>
+                    <td><%=TimeUtil.toString(meal.getDateTime())%></td>
                     <td>${meal.description}</td>
                     <td>${meal.calories}</td>
                     <td>${meal.exceed}</td>
@@ -32,7 +37,8 @@
             </c:when>
             <c:otherwise>
                 <tr bgcolor="green">
-                    <td>${meal.dateTime}</td>
+                    <td>${meal.id}</td>
+                    <td><%=TimeUtil.toString(meal.getDateTime())%></td>
                     <td>${meal.description}</td>
                     <td>${meal.calories}</td>
                     <td>${meal.exceed}</td>

@@ -10,9 +10,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 11.01.2015.
  */
 public class Meal {
-    private static AtomicInteger atomicInteger = new AtomicInteger(1);
+    private static AtomicInteger atomicInteger = new AtomicInteger(0);
 
-    private final int id;
+    private int id;
 
     private final LocalDateTime dateTime;
 
@@ -50,4 +50,14 @@ public class Meal {
     public LocalTime getTime() {
         return dateTime.toLocalTime();
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public static AtomicInteger getAtomicInteger() {
+        return atomicInteger;
+
+    }
+
 }
