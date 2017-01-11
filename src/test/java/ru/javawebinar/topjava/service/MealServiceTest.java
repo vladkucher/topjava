@@ -61,6 +61,7 @@ public class MealServiceTest {
     @Test
     public void testUpdate() throws Exception {
         Meal updated = getUpdated();
+        System.out.println(updated.getUser());
         service.update(updated, USER_ID);
         MATCHER.assertEquals(updated, service.get(MEAL1_ID, USER_ID));
     }

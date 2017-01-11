@@ -1,5 +1,7 @@
 package ru.javawebinar.topjava;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * User: gkislin
  * Date: 05.08.2015
