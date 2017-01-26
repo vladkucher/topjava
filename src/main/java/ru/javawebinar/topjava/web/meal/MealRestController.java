@@ -22,7 +22,7 @@ import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
  * GKislin
  * 06.03.2015.
  */
-@Controller
+
 public class MealRestController {
     private static final Logger LOG = LoggerFactory.getLogger(MealRestController.class);
 
