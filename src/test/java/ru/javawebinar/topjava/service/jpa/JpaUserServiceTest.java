@@ -7,4 +7,9 @@ import static ru.javawebinar.topjava.Profiles.JPA;
 
 @ActiveProfiles(JPA)
 public class JpaUserServiceTest extends AbstractUserServiceTest {
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        jpaUtil.clear2ndLevelHibernateCache();
+    }
 }

@@ -4,30 +4,30 @@
 <%@ taglib prefix="fn" uri="http://topjava.javawebinar.ru/functions" %>
 <html>
 <head>
-    <title>Meal list</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title><fmt:message key="meals.title"/></title>
+    <link rel="stylesheet" href="resources/css/style.css">
 </head>
 <body>
 <section>
-    <h3>Meal list</h3>
+    <h3><fmt:message key="meals.title"/></h3>
     <form method="post" action="meals/filter">
         <dl>
-            <dt>From Date:</dt>
+            <dt><fmt:message key="meals.fromDate"/></dt>
             <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
         </dl>
         <dl>
-            <dt>To Date:</dt>
+            <dt><fmt:message key="meals.toDate"/></dt>
             <dd><input type="date" name="endDate" value="${param.endDate}"></dd>
         </dl>
         <dl>
-            <dt>From Time:</dt>
+            <dt><fmt:message key="meals.fromTime"/></dt>
             <dd><input type="time" name="startTime" value="${param.startTime}"></dd>
         </dl>
         <dl>
-            <dt>To Time:</dt>
+            <dt><fmt:message key="meals.toTime"/></dt>
             <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
         </dl>
-        <button type="submit">Filter</button>
+        <button type="submit"><fmt:message key="meals.filter"/></button>
     </form>
     <hr>
     <a href="meals/create">Add Meal</a>

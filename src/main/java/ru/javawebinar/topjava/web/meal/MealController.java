@@ -1,4 +1,4 @@
-package ru.javawebinar.topjava.web;
+package ru.javawebinar.topjava.web.meal;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.DateTimeUtil;
+import ru.javawebinar.topjava.web.MealServlet;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,7 +41,7 @@ public class MealController extends MealRestController{
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String saveMeal(HttpServletRequest request){
+    public String creatMeal(HttpServletRequest request){
         final Meal meal = new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000);
         request.setAttribute("meal", meal);
         return "meal";
@@ -53,11 +54,26 @@ public class MealController extends MealRestController{
         return "meal";
     }
 
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public String saveMeal(HttpServletRequest request){
+        final Meal meal = new Meal(
+                LocalDateTime.parse(request.getParameter("dateTime")),
+                request.getParameter("description"),
+                Integer.valueOf(request.getParameter("calories")));
+        if(request.getParameter("id").isEmpty()) {
+            create(meal);
+        }
+        else {
+            update(meal,getId(request));
+        }
+        return "redirect:/meals";
+    }
+
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public String deleteMeal(HttpServletRequest request){
         int id = getId(request);
         delete(id);
-        return "meals";
+        return "redirect:/meals";
     }
 
     private int getId(HttpServletRequest request) {
