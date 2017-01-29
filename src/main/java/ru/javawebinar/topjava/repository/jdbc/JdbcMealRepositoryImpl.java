@@ -10,6 +10,11 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
@@ -34,6 +39,7 @@ public abstract class JdbcMealRepositoryImpl<T> implements MealRepository {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+
     private SimpleJdbcInsert insertMeal;
 
     protected abstract T toDbDateTime(LocalDateTime ldt);
@@ -47,6 +53,7 @@ public abstract class JdbcMealRepositoryImpl<T> implements MealRepository {
 
     @Repository
     @Profile(Profiles.POSTGRES)
+    @Transactional
     public static class Java8JdbcMealRepositoryImpl extends JdbcMealRepositoryImpl<LocalDateTime> {
         @Override
         protected LocalDateTime toDbDateTime(LocalDateTime ldt) {
@@ -56,6 +63,7 @@ public abstract class JdbcMealRepositoryImpl<T> implements MealRepository {
 
     @Repository
     @Profile(Profiles.HSQLDB)
+    @Transactional
     public static class TimestampJdbcMealRepositoryImpl extends JdbcMealRepositoryImpl<Timestamp> {
 
         @Override
