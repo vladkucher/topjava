@@ -1,6 +1,17 @@
 var ajaxUrl = 'ajax/admin/users/';
 var datatableApi;
 
+function enable(id) {
+    $.ajax({
+        url: ajaxUrl + id,
+        type: 'POST',
+        success: function () {
+            updateTable();
+            successNoty('Updated');
+        }
+    });
+}
+
 // $(document).ready(function () {
 $(function () {
     datatableApi = $('#datatable').DataTable({

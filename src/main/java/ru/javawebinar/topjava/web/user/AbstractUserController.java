@@ -41,6 +41,11 @@ public abstract class AbstractUserController {
         service.delete(id);
     }
 
+    public void enable(int id){
+        log.info("enable" + id);
+        service.enable(id);
+    }
+
     public void update(User user, int id) {
         checkIdConsistent(user, id);
         log.info("update " + user);
