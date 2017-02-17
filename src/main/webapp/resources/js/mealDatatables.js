@@ -16,6 +16,27 @@ function updateTable() {
     });
 }
 
+jQuery('#dateTime').datetimepicker({
+    format: 'Y-m-d H:i'
+});
+
+jQuery('#startDate').datetimepicker({
+    format: 'Y-m-d',
+    timepicker: false
+});
+jQuery('#startTime').datetimepicker({
+    format: 'H:i',
+    datepicker: false
+});
+jQuery('#endDate').datetimepicker({
+    format: 'Y-m-d',
+    timepicker: false
+});
+jQuery('#endTime').datetimepicker({
+    format: 'H:i',
+    datepicker: false
+});
+
 $(function () {
     datatableApi = $("#datatable").DataTable({
         "ajax": {
