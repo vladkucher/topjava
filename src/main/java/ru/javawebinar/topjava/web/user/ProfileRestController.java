@@ -1,10 +1,15 @@
 package ru.javawebinar.topjava.web.user;
 
 import org.springframework.http.MediaType;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.to.UserTo;
+import ru.javawebinar.topjava.util.ValidationUtil;
+
+import javax.validation.Valid;
+import javax.validation.ValidationException;
 
 /**
  * GKislin
@@ -26,8 +31,10 @@ public class ProfileRestController extends AbstractUserController {
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @Override
-    public void update(@RequestBody UserTo userTo) {
+    public void update(@Valid @RequestBody UserTo userTo, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new ValidationException(ValidationUtil.getErrorResponse(result).getBody());
+        }
         super.update(userTo);
     }
 
