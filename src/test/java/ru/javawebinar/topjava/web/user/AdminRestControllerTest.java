@@ -85,31 +85,54 @@ public class AdminRestControllerTest extends AbstractControllerTest {
 
     @Test
     public void testUpdate() throws Exception {
-        UserTo updated = new UserTo(null, "UpdatedName", "user@yandex.ru", "password", 2005);
+        User updated = new User(USER);
+        updated.setName("UpdatedName");
+        updated.setRoles(Collections.singletonList(Role.ROLE_ADMIN));
         mockMvc.perform(put(REST_URL + USER_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
                 .content(JsonUtil.writeValue(updated)))
                 .andExpect(status().isOk());
 
-        MATCHER.assertEquals(UserUtil.updateFromTo(new User(USER), updated), userService.get(USER_ID));
+        MATCHER.assertEquals(updated, userService.get(USER_ID));
     }
 
     @Test
+    public void testUpdateInvalid() throws Exception {
+        User updated = new User(USER);
+        updated.setName(null);
+        mockMvc.perform(put(REST_URL + USER_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN))
+                .content(JsonUtil.writeValue(updated)))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+
+    @Test
     public void testCreate() throws Exception {
-        UserTo expected = new UserTo(null, "New", "new@gmail.com", "newPass", 2300);
-        //User expected = new User(null, "New", "new@gmail.com", "newPass", 2300,Role.ROLE_USER,Role.ROLE_ADMIN);
+        User expected = new User(null, "New", "new@gmail.com", "newPass", 2300, Role.ROLE_USER, Role.ROLE_ADMIN);
         ResultActions action = mockMvc.perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
-                .content(JsonUtil.writeValue(expected))).andExpect(status().isOk());
+                .content(JsonUtil.writeValue(expected)))
+                .andExpect(status().isCreated());
 
-        //User returned = MATCHER.fromJsonAction(action);
-        //UserTo returned = MATCHER2.fromJsonAction(action);
-       // expected.setId(returned.getId());
+        User returned = MATCHER.fromJsonAction(action);
+        expected.setId(returned.getId());
 
-       // MATCHER.assertEquals(UserUtil.createNewFromTo(expected), UserUtil.createNewFromTo(returned));
-        //MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, UserUtil.createNewFromTo(expected), USER), userService.getAll());
+        MATCHER.assertEquals(expected, returned);
+        MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, expected, USER), userService.getAll());
+    }
+
+    @Test
+    public void testCreateInvalid() throws Exception {
+        User expected = new User(null, "New", null, "newPass", 2300, Role.ROLE_USER, Role.ROLE_ADMIN);
+        mockMvc.perform(post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN))
+                .content(JsonUtil.writeValue(expected)))
+                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test

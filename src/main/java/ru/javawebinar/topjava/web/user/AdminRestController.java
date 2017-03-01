@@ -37,11 +37,17 @@ public class AdminRestController extends AbstractUserController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void createWithLocation(@Valid @RequestBody UserTo userTo, BindingResult result) {
-        if (result.hasErrors()) {
-            throw new ValidationException(ValidationUtil.getErrorResponse(result).getBody());
-        }
-        super.create(UserUtil.createNewFromTo(userTo));
+    public ResponseEntity<User> createWithLocation(@Valid @RequestBody User user) {
+        User created = super.create(user);
+
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.setLocation(uriOfNewResource);
+
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(created.getId()).toUri();
+
+        return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
     @Override
@@ -50,12 +56,10 @@ public class AdminRestController extends AbstractUserController {
         super.delete(id);
     }
 
+    @Override
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@Valid @RequestBody UserTo userTo, @PathVariable("id") int id, BindingResult result) {
-        if (result.hasErrors()) {
-            throw new ValidationException(ValidationUtil.getErrorResponse(result).getBody());
-        }
-        super.update(UserUtil.createNewFromTo(userTo), id);
+    public void update(@Valid @RequestBody User user, @PathVariable("id") int id) {
+        super.update(user, id);
     }
 
     @Override

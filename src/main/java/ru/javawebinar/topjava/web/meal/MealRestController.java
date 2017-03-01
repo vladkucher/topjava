@@ -41,20 +41,21 @@ public class MealRestController extends AbstractMealController {
         return super.getAll();
     }
 
+    @Override
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@Valid @RequestBody Meal meal, @PathVariable("id") int id, BindingResult result) {
-        if (result.hasErrors()) {
-            throw new ValidationException(ValidationUtil.getErrorResponse(result).getBody());
-        }
+    public void update(@Valid @RequestBody Meal meal, @PathVariable("id") int id) {
         super.update(meal, id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void createWithLocation(@Valid @RequestBody Meal meal, BindingResult result) {
-        if (result.hasErrors()) {
-            throw new ValidationException(ValidationUtil.getErrorResponse(result).getBody());
-        }
+    public ResponseEntity<Meal> createWithLocation(@Valid @RequestBody Meal meal) {
         Meal created = super.create(meal);
+
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(created.getId()).toUri();
+
+        return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
     @GetMapping(value = "/between")
