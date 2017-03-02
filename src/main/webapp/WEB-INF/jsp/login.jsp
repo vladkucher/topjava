@@ -24,22 +24,7 @@
                         </button>
                     </form:form>
                 </li>
-                <li class="dropdown">
-                    <a id="drop1" href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        ru
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a onclick="show('en')">English</a></li>
-                        <li><a onclick="show('ru')">Русский</a></li>
-                    </ul>
-                </li>
-                <script type="text/javascript">
-                    var localeCode="ru";
-                    function show(lang) {
-                        window.location.href = window.location.href.split('?')[0] + '?lang=' + lang;
-                    }
-                </script>
+                <jsp:include page="fragments/language.jsp"/>
             </ul>
         </div>
 

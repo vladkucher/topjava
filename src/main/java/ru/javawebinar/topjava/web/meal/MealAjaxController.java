@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.web.meal;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -43,10 +44,14 @@ public class MealAjaxController extends AbstractMealController {
 
     @PostMapping
     public void updateOrCreate(@Valid Meal meal) {
-        if (meal.isNew()) {
-            super.create(meal);
-        } else {
-            super.update(meal, meal.getId());
+        try{
+            if (meal.isNew()) {
+                super.create(meal);
+            } else {
+                super.update(meal, meal.getId());
+            }
+        }catch (DataIntegrityViolationException e){
+            throw new DataIntegrityViolationException("You already have meal with this dateTime");
         }
     }
 
