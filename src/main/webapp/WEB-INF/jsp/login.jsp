@@ -10,18 +10,39 @@
     <div class="container">
         <div class="navbar-header navbar-brand"><spring:message code="app.title"/></div>
         <div class="navbar-collapse collapse">
-            <form:form class="navbar-form navbar-right" role="form" action="spring_security_check" method="post">
-                <div class="form-group">
-                    <input type="text" placeholder="Email" class="form-control" name="username">
-                </div>
-                <div class="form-group">
-                    <input type="password" placeholder="Password" class="form-control" name="password">
-                </div>
-                <button type="submit" class="btn btn-success">
-                    <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-                </button>
-            </form:form>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <form:form class="navbar-form" role="form" action="spring_security_check" method="post">
+                        <div class="form-group">
+                            <input type="text" placeholder="Email" class="form-control" name="username">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" placeholder="Password" class="form-control" name="password">
+                        </div>
+                        <button type="submit" class="btn btn-success">
+                            <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+                        </button>
+                    </form:form>
+                </li>
+                <li class="dropdown">
+                    <a id="drop1" href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        ru
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a onclick="show('en')">English</a></li>
+                        <li><a onclick="show('ru')">Русский</a></li>
+                    </ul>
+                </li>
+                <script type="text/javascript">
+                    var localeCode="ru";
+                    function show(lang) {
+                        window.location.href = window.location.href.split('?')[0] + '?lang=' + lang;
+                    }
+                </script>
+            </ul>
         </div>
+
     </div>
 </div>
 
